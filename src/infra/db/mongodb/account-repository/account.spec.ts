@@ -1,6 +1,6 @@
 import { MongoHelper } from '../helpers/mongo-helper'
 import { AccountMongoRepository } from './account'
-import { type Collection } from 'mongodb'
+import { type Collection, type InsertOneResult } from 'mongodb'
 describe('Account Mongo Repository', () => {
   let accountCollection: Collection
   beforeAll(async () => {
@@ -50,5 +50,20 @@ describe('Account Mongo Repository', () => {
     const sut = makeSut()
     const account = await sut.loadByEmail('any_email@mail.com')
     expect(account).toBeFalsy()
+  })
+
+  test('Should update the account accessToken on updateAccessToken success', async () => {
+    const sut = makeSut()
+    const result: InsertOneResult<Document> = await accountCollection.insertOne({
+      name: 'any_name',
+      email: 'any_email@mail.com',
+      password: 'any_password'
+    })
+    const user: any = await accountCollection.findOne({ _id: result.insertedId })
+    expect(user.accessToken).toBeFalsy()
+    await sut.updateAccessToken(user._id, 'any_token')
+    const account = await accountCollection.findOne({ _id: user._id })
+    expect(account).toBeTruthy()
+    expect(account.accessToken).toBe('any_token')
   })
 })
