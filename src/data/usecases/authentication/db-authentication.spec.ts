@@ -35,7 +35,7 @@ const makeHashComparer = (): HashComparer => {
 
 const makeEncrypter = (): Encrypter => {
   class EncrypterStub implements Encrypter {
-    async encrypt (id: string): Promise<string | null> {
+    async encrypt (id: string): Promise<string> {
       return await new Promise(resolve => { resolve('any_token') })
     }
   }
