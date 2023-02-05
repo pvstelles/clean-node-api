@@ -33,7 +33,7 @@ describe('Login Routes', () => {
     })
   })
   describe('POST /login', () => {
-    test('Should return status code 200 on signup', async () => {
+    test('Should return status code 200 on login', async () => {
       const passwordHashed = await hash('paulo', 12)
       await accountCollection.insertOne({
         name: 'Paulo Victor',
@@ -48,6 +48,16 @@ describe('Login Routes', () => {
           password: 'paulo'
         })
         .expect(200)
+    })
+
+    test('Should return status code 401 when login fail', async () => {
+      await request(app)
+        .post('/api/login')
+        .send({
+          email: 'paulo.telles@rockapps.com.br',
+          password: 'paulo'
+        })
+        .expect(401)
     })
   })
 })
