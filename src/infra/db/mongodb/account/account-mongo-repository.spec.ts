@@ -1,5 +1,5 @@
 import { MongoHelper } from '../helpers/mongo-helper'
-import { AccountMongoRepository } from './account'
+import { AccountMongoRepository } from './account-mongo-repository'
 import { type Collection, type InsertOneResult } from 'mongodb'
 describe('Account Mongo Repository', () => {
   let accountCollection: Collection
