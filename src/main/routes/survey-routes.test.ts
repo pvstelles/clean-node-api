@@ -24,7 +24,7 @@ describe('Survey Routes', () => {
   })
 
   describe('POST /api/surveys', () => {
-    test('Should return status code 403 on add-survey without valid accessToken', async () => {
+    test('Should return status code 403 on add-survey.ts without valid accessToken', async () => {
       await request(app)
         .post('/api/surveys')
         .send({
@@ -36,7 +36,7 @@ describe('Survey Routes', () => {
         })
         .expect(403)
     })
-    test('Should return status code 204 on add survey with valid token', async () => {
+    test('Should return status code 204 on add survey.ts with valid token', async () => {
       const result = await accountCollection.insertOne({
         name: 'Paulo Victor',
         email: 'paulo.telles@rockapps.com.br',
