@@ -19,7 +19,7 @@ describe('Survey Routes', () => {
   })
 
   describe('POST /api/surveys', () => {
-    test('Should return status code 204 on post survey', async () => {
+    test('Should return status code 403 on add-survey without valid accessToken', async () => {
       await request(app)
         .post('/api/surveys')
         .send({
@@ -29,7 +29,7 @@ describe('Survey Routes', () => {
             { answer: 'Answer 2' }
           ]
         })
-        .expect(204)
+        .expect(403)
     })
   })
 })
