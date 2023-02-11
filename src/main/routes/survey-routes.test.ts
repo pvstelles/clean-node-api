@@ -66,5 +66,20 @@ describe('Survey Routes', () => {
         .send()
         .expect(403)
     })
+    test('Should return status code 204 on load survey.ts with valid token', async () => {
+      const result = await accountCollection.insertOne({
+        name: 'Paulo Victor',
+        email: 'paulo.telles@rockapps.com.br',
+        password: 'paulo',
+        passwordConfirmation: 'paulo'
+      })
+      const accessToken = sign({ id: result.insertedId }, env.jwtSecret)
+      await accountCollection.updateOne({ _id: result.insertedId }, { $set: { accessToken } })
+      await request(app)
+        .get('/api/surveys')
+        .set('x-access-token', accessToken)
+        .send()
+        .expect(204)
+    })
   })
 })
