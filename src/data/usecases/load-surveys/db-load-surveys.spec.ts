@@ -19,9 +19,7 @@ const makeFakeSurveys = (): SurveyModel[] => ([
     ],
     date: new Date()
   }
-]
-)
-
+])
 const makeLoadSurveyRepositoryStub = (): LoadSurveysRepository => {
   class LoadSurveyRepositoryStub implements LoadSurveysRepository {
     async loadAll (): Promise<SurveyModel[]> {
@@ -30,13 +28,11 @@ const makeLoadSurveyRepositoryStub = (): LoadSurveysRepository => {
   }
   return new LoadSurveyRepositoryStub()
 }
-
-interface SutyTypes {
+interface SutTypes {
   sut: DbLoadSurveys
   loadSurveyRepositoryStub: LoadSurveysRepository
 }
-
-const makeSut = (): SutyTypes => {
+const makeSut = (): SutTypes => {
   const loadSurveyRepositoryStub = makeLoadSurveyRepositoryStub()
   const sut = new DbLoadSurveys(loadSurveyRepositoryStub)
   return {
@@ -51,5 +47,10 @@ describe('DbLoadSurveys', () => {
     const loadAllSpy = jest.spyOn(loadSurveyRepositoryStub, 'loadAll')
     await sut.load()
     expect(loadAllSpy).toHaveBeenCalled()
+  })
+  test('Should return a list of Surveys on success', async () => {
+    const { sut } = makeSut()
+    const surveys = await sut.load()
+    expect(surveys).toEqual(makeFakeSurveys())
   })
 })
