@@ -59,4 +59,12 @@ describe('Survey Routes', () => {
         .expect(204)
     })
   })
+  describe('GET /api/surveys', () => {
+    test('Should return status code 403 on add-survey.ts without valid accessToken', async () => {
+      await request(app)
+        .get('/api/surveys')
+        .send()
+        .expect(403)
+    })
+  })
 })
