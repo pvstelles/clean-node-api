@@ -1,7 +1,7 @@
 import request from 'supertest'
 
 import app from '../config/app'
-import { MongoHelper } from '../../infra/db/mongodb/helpers/mongo-helper'
+import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
 import { type Collection } from 'mongodb'
 import { sign } from 'jsonwebtoken'
 import env from '../config/env'
@@ -52,7 +52,6 @@ describe('Survey Routes', () => {
     })
     test('Should return status code 204 on add survey.ts with valid token', async () => {
       const accessToken = await makeAccessToken()
-      console.log(accessToken)
       await request(app)
         .post('/api/surveys')
         .set('x-access-token', accessToken)
