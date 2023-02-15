@@ -1,6 +1,6 @@
 import { MongoHelper } from '../helpers/mongo-helper'
 import { AccountMongoRepository } from './account-mongo-repository'
-import { type Collection, type InsertOneResult } from 'mongodb'
+import { type Collection } from 'mongodb'
 
 let accountCollection: Collection
 const makeSut = (): AccountMongoRepository => {
@@ -58,7 +58,7 @@ describe('Account Mongo Repository', () => {
   describe('updateAccessToken()', () => {
     test('Should update the account accessToken on updateAccessToken success', async () => {
       const sut = makeSut()
-      const result: InsertOneResult<Document> = await accountCollection.insertOne({
+      const result = await accountCollection.insertOne({
         name: 'any_name',
         email: 'any_email@mail.com',
         password: 'any_password'
