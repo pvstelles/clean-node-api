@@ -10,13 +10,6 @@ import {
 import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { type Authentication, type AuthenticationModel } from '@/domain/usecases/authentication'
 
-interface SutTypes {
-  sut: SignUpController
-  addAccountStub: AddAccount
-
-  validationStub: Validation
-}
-
 const makeValidation = (): Validation => {
   class ValidationStub implements Validation {
     validate (input: any): Error | null {
@@ -67,10 +60,9 @@ const makeFakeAccount = (): AccountModel => ({
   password: 'valid_password'
 })
 
-interface SutTypes {
+type SutTypes = {
   sut: SignUpController
   addAccountStub: AddAccount
-
   validationStub: Validation
   authenticationStub: Authentication
 }
