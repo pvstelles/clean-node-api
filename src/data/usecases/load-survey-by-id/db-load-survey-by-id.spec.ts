@@ -2,7 +2,7 @@ import { type SurveyModel } from '@/domain/models/survey'
 import { type LoadSurveyByIdRepository } from '@/data/protocols/db/survey/load-survey-by-id-repository'
 import { DbLoadSurveyById } from '@/data/usecases/load-survey-by-id/db-load-survey-by-id'
 
-const makeFakeSurveys = (): SurveyModel => ({
+const makeFakeSurvey = (): SurveyModel => ({
   id: 'any_id',
   question: 'any_question',
   answers: [
@@ -14,7 +14,7 @@ const makeFakeSurveys = (): SurveyModel => ({
 const makeLoadSurveyByIdRepositoryStub = (): LoadSurveyByIdRepository => {
   class LoadSurveyByIdRepositoryStub implements LoadSurveyByIdRepository {
     async loadById (): Promise<SurveyModel> {
-      return await new Promise((resolve) => { resolve(makeFakeSurveys()) })
+      return await new Promise((resolve) => { resolve(makeFakeSurvey()) })
     }
   }
   return new LoadSurveyByIdRepositoryStub()
@@ -38,5 +38,10 @@ describe('DbLoadSurveyById', () => {
     const loadAllSpy = jest.spyOn(loadSurveyByIdRepositoryStub, 'loadById')
     await sut.loadById('any_id')
     expect(loadAllSpy).toHaveBeenCalledWith('any_id')
+  })
+  test('Should return Survey on success', async () => {
+    const { sut } = makeSut()
+    const survey = await sut.loadById('any_id')
+    expect(survey).toEqual(makeFakeSurvey())
   })
 })
