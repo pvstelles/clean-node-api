@@ -6,7 +6,7 @@ import {
   type AddAccount,
   type Validation
 } from './signup-controller-protocols'
-import { type Authentication } from '@/domain/usecases/authentication'
+import { type Authentication } from '@/domain/usecases/account/authentication'
 import { EmailInUseError } from '@/presentation/errors'
 
 export class SignUpController implements Controller {

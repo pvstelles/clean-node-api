@@ -1,8 +1,8 @@
 import MockDate from 'mockdate'
 import { type SurveyResultModel } from '@/domain/models/survey-result'
-import { type SaveSurveyResultModel } from '@/domain/usecases/save-survey-result'
-import { type SaveSurveyResultRepository } from '@/data/protocols/db/survey/save-survey-result-repository'
-import { DbSaveSurveyResult } from '@/data/usecases/save-survey-result/db-save-survey-result'
+import { type SaveSurveyResultModel } from '@/domain/usecases/survey/save-survey-result'
+import { type SaveSurveyResultRepository } from '@/data/protocols/db/survey-result/save-survey-result-repository'
+import { DbSaveSurveyResult } from '@/data/usecases/survey-result/save-survey-result/db-save-survey-result'
 
 const makeFakeSurveyResultData = (): SaveSurveyResultModel => {
   return {

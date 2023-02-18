@@ -1,4 +1,4 @@
-import { type LoadSurveys } from '@/domain/usecases/load-surveys'
+import { type LoadSurveys } from '@/domain/usecases/survey/load-surveys'
 import { type SurveyModel } from '@/domain/models/survey'
 import { type LoadSurveysRepository } from '@/data/protocols/db/survey/load-surveys-repository'
 

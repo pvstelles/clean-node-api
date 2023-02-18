@@ -5,6 +5,7 @@
     "target": "es2019",
     "esModuleInterop": true,
     "strictNullChecks": true,
+    "skipLibCheck": true,
     "sourceMap": true,
     "rootDir": "src",
     "baseUrl": "src",

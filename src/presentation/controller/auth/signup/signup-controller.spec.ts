@@ -8,7 +8,7 @@ import {
   type Validation
 } from './signup-controller-protocols'
 import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
-import { type Authentication, type AuthenticationModel } from '@/domain/usecases/authentication'
+import { type Authentication, type AuthenticationModel } from '@/domain/usecases/account/authentication'
 
 const makeValidation = (): Validation => {
   class ValidationStub implements Validation {
