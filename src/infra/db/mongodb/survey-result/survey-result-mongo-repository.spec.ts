@@ -53,7 +53,7 @@ describe('Survey Result Mongo Repository', () => {
       const sut = makeSut()
       const surveyResult = await sut.save({
         surveyId: survey.id,
-        account_id: account.id,
+        accountId: account.id,
         answer: survey.answers[0].answer,
         date: new Date()
       })
@@ -66,14 +66,14 @@ describe('Survey Result Mongo Repository', () => {
       const account = await makeAccount()
       const fakeSurveyResult = await surveyResultCollection.insertOne({
         surveyId: survey.id,
-        account_id: account.id,
+        accountId: account.id,
         answer: survey.answers[0].answer,
         data: new Date()
       })
       const sut = makeSut()
       const surveyResult = await sut.save({
         surveyId: survey.id,
-        account_id: account.id,
+        accountId: account.id,
         answer: 'other_answer',
         date: new Date()
       })

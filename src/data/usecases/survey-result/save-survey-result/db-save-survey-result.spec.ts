@@ -6,7 +6,7 @@ import { DbSaveSurveyResult } from '@/data/usecases/survey-result/save-survey-re
 
 const makeFakeSurveyResultData = (): SaveSurveyResultModel => {
   return {
-    account_id: 'any_account_id',
+    accountId: 'any_account_id',
     surveyId: 'any_survey_id',
     answer: 'any_answer',
     date: new Date()
