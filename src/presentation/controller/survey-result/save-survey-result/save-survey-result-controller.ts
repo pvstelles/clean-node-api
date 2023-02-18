@@ -32,13 +32,13 @@ export class SaveSurveyResultController implements Controller {
       if (!accountId) {
         return forbidden(new Error('Access denied'))
       }
-      await this.saveSurveyResult.save({
+      const surveyResult = await this.saveSurveyResult.save({
         accountId,
         surveyId,
         answer,
         date: new Date()
       })
-      return ok({})
+      return ok(surveyResult)
     } catch (e) {
       return serverError(e)
     }
