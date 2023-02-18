@@ -8,7 +8,7 @@ const makeFakeSurveyResultData = (): SaveSurveyResultModel => {
   return {
     account_id: 'any_account_id',
     survey_id: 'any_survey_id',
-    answers: 'any_answer',
+    answer: 'any_answer',
     date: new Date()
   }
 }
