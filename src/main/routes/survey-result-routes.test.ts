@@ -3,9 +3,23 @@ import request from 'supertest'
 import app from '../config/app'
 import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
 import { type Collection } from 'mongodb'
+import { sign } from 'jsonwebtoken'
+import env from '@/main/config/env'
 
 let surveyCollection: Collection
 let accountCollection: Collection
+
+const makeAccessToken = async (): Promise<string> => {
+  const result = await accountCollection.insertOne({
+    name: 'Paulo Victor',
+    email: 'paulo.telles@rockapps.com.br',
+    password: 'paulo',
+    passwordConfirmation: 'paulo'
+  })
+  const accessToken = sign({ id: result.insertedId }, env.jwtSecret)
+  await accountCollection.updateOne({ _id: result.insertedId }, { $set: { accessToken } })
+  return accessToken
+}
 
 describe('Survey Result Routes', () => {
   beforeAll(async () => {
@@ -33,6 +47,25 @@ describe('Survey Result Routes', () => {
           answers: 'any_answer'
         })
         .expect(403)
+    })
+    test('Should return status code 200 on save result with valid accessToken', async () => {
+      const accessToken = await makeAccessToken()
+      const res = await surveyCollection.insertOne({
+        question: 'Question',
+        answers: [
+          { answer: 'Answer 1', image: 'http://image-name.com' },
+          { answer: 'Answer 2', image: 'http://image-name.com' }
+        ],
+        date: new Date()
+      })
+      const surveyId: string = res.ops[0]._id.toString()
+      await request(app)
+        .put(`/api/surveys/${surveyId}/results`)
+        .set('x-access-token', accessToken)
+        .send({
+          answer: 'Answer 1'
+        })
+        .expect(200)
     })
   })
 })
