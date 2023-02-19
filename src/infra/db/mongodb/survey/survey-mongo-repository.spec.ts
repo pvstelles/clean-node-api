@@ -1,11 +1,13 @@
 import { MongoHelper } from '../helpers/mongo-helper'
 import { type Collection } from 'mongodb'
 import { SurveyMongoRepository } from './survey-mongo-repository'
+import { mockAddSurveyData, mockSurveysModel } from '@/domain/test'
 
 const makeSut = (): SurveyMongoRepository => {
   return new SurveyMongoRepository()
 }
 let surveyCollection: Collection
+
 describe('Survey Mongo Repository', () => {
   beforeAll(async () => {
     // @ts-expect-error error no typescript
@@ -22,32 +24,14 @@ describe('Survey Mongo Repository', () => {
   describe('add()', () => {
     test('Should return an survey.ts on success', async () => {
       const sut = makeSut()
-      await sut.add({
-        question: 'any_question',
-        answers: [
-          { image: 'any_image', answer: 'any_answer' },
-          { answer: 'any_answer' }
-        ],
-        date: new Date()
-      })
+      await sut.add(mockAddSurveyData())
       const survey = await surveyCollection.findOne({ question: 'any_question' })
       expect(survey).toBeTruthy()
     })
   })
   describe('loadAll()', () => {
     test('Should loadAll surveys', async () => {
-      await surveyCollection.insertMany([
-        {
-          question: 'any_question',
-          answers: [{ answer: 'any_answer', image: 'any_image' }],
-          date: new Date()
-        },
-        {
-          question: 'other_question',
-          answers: [{ answer: 'other_answer', image: 'other_image' }],
-          date: new Date()
-        }
-      ])
+      await surveyCollection.insertMany(mockSurveysModel())
       const sut = makeSut()
       const surveys = await sut.loadAll()
       expect(surveys.length).toBe(2)
@@ -62,11 +46,7 @@ describe('Survey Mongo Repository', () => {
   })
   describe('loadById()', () => {
     test('Should load survey by id on success', async () => {
-      const response = await surveyCollection.insertOne({
-        question: 'any_question',
-        answers: [{ answer: 'any_answer', image: 'any_image' }],
-        date: new Date()
-      })
+      const response = await surveyCollection.insertOne(mockAddSurveyData())
       const id = response.ops[0]._id
       const sut = makeSut()
       const survey = await sut.loadById(id)
