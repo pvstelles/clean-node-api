@@ -11,6 +11,7 @@ import { surveySchema } from '@/main/docs/schemas/survey-schema'
 import { surveyAnswerSchema } from '@/main/docs/schemas/survey-answer-schema'
 import { saveSurveyParamsSchema } from '@/main/docs/schemas/save-survey-params-schema'
 import { surveyResultSchema } from '@/main/docs/schemas/survey-result-schema'
+import { surveyResultAnswerSchema } from '@/main/docs/schemas/survey-result-answer-schema'
 
 export default {
   addSurveyParams: addSurveyParamsSchema,
@@ -25,5 +26,6 @@ export default {
   survey: surveySchema,
   surveyAnswer: surveyAnswerSchema,
   saveSurveyParams: saveSurveyParamsSchema,
-  surveyResult: surveyResultSchema
+  surveyResult: surveyResultSchema,
+  surveyResultAnswer: surveyResultAnswerSchema
 }
