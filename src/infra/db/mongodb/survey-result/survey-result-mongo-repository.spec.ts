@@ -1,5 +1,5 @@
 import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
-import { type Collection } from 'mongodb'
+import { type Collection, ObjectId } from 'mongodb'
 import { type SurveyModel } from '@/domain/models/survey'
 import { type AccountModel } from '@/domain/models/account'
 import { SurveyResultMongoRepository } from '@/infra/db/mongodb/survey-result/survey-result-mongo-repository'
@@ -11,7 +11,10 @@ let accountCollection: Collection
 const makeSurvey = async (): Promise<SurveyModel> => {
   const res = await surveyCollection.insertOne({
     question: 'any_question',
-    answers: [{ answer: 'any_answer', image: 'any_image' }],
+    answers: [
+      { answer: 'any_answer', image: 'any_image' },
+      { answer: 'other_answer', image: 'other_image' }
+    ],
     date: new Date()
   })
   return MongoHelper.map(res.ops[0])
@@ -58,15 +61,17 @@ describe('Survey Result Mongo Repository', () => {
         date: new Date()
       })
       expect(surveyResult).toBeTruthy()
-      expect(surveyResult.id).toBeTruthy()
-      expect(surveyResult.answer).toBe(survey.answers[0].answer)
+      expect(surveyResult.surveyId).toEqual(survey.id)
+      expect(surveyResult.answers[0].answer).toEqual('any_answer')
+      expect(surveyResult.answers[0].count).toBe(1)
+      expect(surveyResult.answers[0].percent).toBe(100)
     })
     test('Should update a survey result if its not new', async () => {
       const survey = await makeSurvey()
       const account = await makeAccount()
-      const fakeSurveyResult = await surveyResultCollection.insertOne({
-        surveyId: survey.id,
-        accountId: account.id,
+      await surveyResultCollection.insertOne({
+        surveyId: new ObjectId(survey.id),
+        accountId: new ObjectId(account.id),
         answer: survey.answers[0].answer,
         data: new Date()
       })
@@ -74,12 +79,14 @@ describe('Survey Result Mongo Repository', () => {
       const surveyResult = await sut.save({
         surveyId: survey.id,
         accountId: account.id,
-        answer: 'other_answer',
+        answer: survey.answers[1].answer,
         date: new Date()
       })
       expect(surveyResult).toBeTruthy()
-      expect(surveyResult.id).toEqual(fakeSurveyResult.ops[0]._id)
-      expect(surveyResult.answer).toBe('other_answer')
+      expect(surveyResult.surveyId).toEqual(survey.id)
+      expect(surveyResult.answers[0].answer).toEqual('other_answer')
+      expect(surveyResult.answers[0].count).toBe(1)
+      expect(surveyResult.answers[0].percent).toBe(100)
     })
   })
 })
