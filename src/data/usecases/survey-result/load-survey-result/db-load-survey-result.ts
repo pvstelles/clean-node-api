@@ -1,6 +1,6 @@
 import { type LoadSurveyResult } from '@/domain/usecases/survey/load-survey-result'
 import { type LoadSurveyResultRepository } from '@/data/protocols/db/survey-result/load-survey-result-repository'
-// import { type SurveyResultModel } from '@/domain/models/survey-result'
+import { type SurveyResultModel } from '@/domain/models/survey-result'
 
 export class DbLoadSurveyResult implements LoadSurveyResult {
   constructor (
@@ -8,8 +8,8 @@ export class DbLoadSurveyResult implements LoadSurveyResult {
   ) {
   }
 
-  async load (surveyId: string): Promise<any> {
-    await this.loadSurveyResultRepository.loadBySurveyId(surveyId)
-    return null
+  async load (surveyId: string): Promise<SurveyResultModel> {
+    const surveyResult = await this.loadSurveyResultRepository.loadBySurveyId(surveyId)
+    return surveyResult
   }
 }

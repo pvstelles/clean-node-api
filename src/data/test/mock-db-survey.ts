@@ -32,7 +32,6 @@ export const mockLoadSurveyRepositoryStub = (): LoadSurveysRepository => {
   }
   return new LoadSurveyRepositoryStub()
 }
-
 export const mockLoadSurveyResultRepository = (): LoadSurveyResultRepository => {
   class LoadSurveyResultRepositoryStub implements LoadSurveyResultRepository {
     async loadBySurveyId (surveyId: string): Promise<SurveyResultModel> {
