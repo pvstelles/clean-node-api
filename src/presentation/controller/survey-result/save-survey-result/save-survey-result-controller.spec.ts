@@ -13,7 +13,7 @@ const mockRequest = (): HttpRequest => {
       surveyId: 'any_survey_id'
     },
     body: {
-      answer: 'any_answer'
+      answer: 'any_answer1'
     },
     accountId: 'any_account_id'
   }
@@ -106,7 +106,7 @@ describe('Save Survey Result Controller', () => {
       surveyId: 'any_survey_id',
       accountId: 'any_account_id',
       date: new Date(),
-      answer: 'any_answer'
+      answer: 'any_answer1'
     })
   })
   test('Should return 500 if SaveSurveyResult throws', async () => {
