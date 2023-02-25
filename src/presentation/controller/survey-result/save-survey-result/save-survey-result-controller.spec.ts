@@ -70,7 +70,7 @@ describe('Save Survey Result Controller', () => {
     await sut.handle(mockRequest())
     expect(loadByIdSpy).toBeCalledWith('any_survey_id')
   })
-  test('Should return 403 id LoadSurveyById return null', async () => {
+  test('Should return 403 if LoadSurveyById return null', async () => {
     const { sut, loadSurveyByIdStub } = makeSut()
     jest.spyOn(loadSurveyByIdStub, 'loadById').mockReturnValueOnce(new Promise((resolve) => {
       resolve(null)
@@ -121,5 +121,18 @@ describe('Save Survey Result Controller', () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(ok(mockSurveyResultModel()))
+  })
+  test('Should return 403 if SaveSurveyResult return null', async () => {
+    const { sut } = makeSut()
+
+    const response = await sut.handle({
+      params: {
+        surveyId: 'any_survey_id'
+      },
+      body: {
+        answer: 'any_answer1'
+      }
+    })
+    expect(response).toEqual(forbidden(new Error('Access denied')))
   })
 })
